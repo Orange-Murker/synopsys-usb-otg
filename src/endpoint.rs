@@ -5,13 +5,10 @@ use crate::endpoint_memory::{EndpointBuffer, EndpointBufferState};
 use crate::ral::{read_reg, write_reg, modify_reg, endpoint_in, endpoint_out, endpoint0_out, otg_device};
 use crate::target::{fifo_write, UsbRegisters};
 use crate::target::interrupt::{self, CriticalSection, Mutex};
-use crate::target::{fifo_write, UsbRegisters};
 use crate::transition::EndpointDescriptor;
 use crate::UsbPeripheral;
 use core::cell::RefCell;
 use core::ops::{Deref, DerefMut};
-use usb_device::endpoint::EndpointAddress;
-use usb_device::{Result, UsbDirection, UsbError};
 
 pub fn set_stalled(usb: UsbRegisters, address: EndpointAddress, stalled: bool) {
     interrupt::free(|_| match address.direction() {
